@@ -67,7 +67,7 @@ your machine.
 
 ## 🏗️ Architecture
 
-```mermaid
+mermaid
 flowchart TD
     A["📁 data/feed_images/<br/>simulated image feed"] --> B["🧠 inference.py<br/>YOLOv8 · fp16 autocast (GPU)<br/>or ThreadPoolExecutor (CPU)"]
     B --> C["🗄️ database.py<br/>SQLite via SQLAlchemy"]
@@ -75,7 +75,7 @@ flowchart TD
     C --> E["📄 reporter.py<br/>ReportLab PDF + SMTP email"]
     D -.->|"Run Detection Pipeline"| B
     D -.->|"Generate PDF Report"| E
-```
+
 
 **Data flow, end to end:**
 1. Images land in `data/feed_images/` (a stand-in for a live drone/CCTV feed).
@@ -121,7 +121,7 @@ No GPU present? Nothing to configure — `config.py` detects `torch.cuda.is_avai
 
 ## 📂 Project Structure
 
-```
+
 edge_ai_geospatial_reporter/
 ├── app.py                 # Streamlit dashboard — sidebar, live table, PyDeck/Folium maps
 ├── config.py               # Paths, CUDA/device config, class thresholds, SMTP + GPS simulation config
@@ -134,13 +134,13 @@ edge_ai_geospatial_reporter/
 ├── models/                  # Drop a fine-tuned YOLOv8 .pt checkpoint here
 ├── reports/                  # Generated PDF reports land here
 └── logs/
-```
+
 
 ---
 
 ## 🚀 Quick Start
 
-```bash
+
 # 1. Unzip and enter the project
 unzip edge_ai_geospatial_reporter.zip
 cd edge_ai_geospatial_reporter
@@ -165,7 +165,7 @@ cp /path/to/your/images/*.jpg data/feed_images/
 
 # 7. Launch the dashboard
 streamlit run app.py
-```
+
 
 Open the URL Streamlit prints (default `http://localhost:8501`), tune thresholds in the sidebar, and click **Run Detection Pipeline**.
 
@@ -189,13 +189,13 @@ All tunables live in `config.py`. The most relevant ones:
 
 **Email delivery** (optional) is configured entirely via environment variables, so credentials never touch source control:
 
-```bash
+
 export SMTP_HOST=smtp.yourprovider.com
 export SMTP_PORT=587
 export SMTP_USERNAME=you@yourdomain.com
 export SMTP_PASSWORD=your-app-password
 export REPORT_EMAIL_TO=ops-team@yourdomain.com,manager@yourdomain.com
-```
+
 
 If unset, `reporter.py` still builds the PDF and offers it for download — it just skips the email step.
 
@@ -204,30 +204,30 @@ If unset, `reporter.py` still builds the PDF and offers it for download — it j
 ## 📘 Usage Guide
 
 ### Run detection standalone (no UI)
-```bash
+
 python inference.py
-```
+
 Prints a summary: `images_processed`, `detections_found`, `device_used`, `elapsed_seconds`.
 
 ### Run the dashboard
-```bash
+
 streamlit run app.py
-```
+
 - **Sidebar** — per-class confidence sliders, queued image count, **Run Detection Pipeline**, **Generate PDF Report**, **Clear All Detections**.
 - **Main panel** — KPI tiles, live detection table, anomaly-type bar chart, PyDeck map, expandable Folium map.
 
 ### Generate a report programmatically
-```bash
+
 python reporter.py
-```
+
 Builds a timestamped PDF in `reports/` and attempts email delivery if SMTP is configured.
 
 ### Query the database directly
-```python
+
 import database
 database.get_summary_stats()
 database.get_recent_anomalies(limit=10)
-```
+
 
 ---
 
@@ -281,6 +281,9 @@ database.get_recent_anomalies(limit=10)
 - [ ] Exportable GeoJSON alongside PDF reports
 
 ---
+<img width="1069" height="781" alt="Screenshot 2026-07-10 090600" src="https://github.com/user-attachments/assets/71152a9c-c10a-46c7-a5d4-c3fcd3208555" />
+<img width="1069" height="781" alt="Screenshot 2026-07-10 090600" src="https://github.com/user-attachments/assets/56836944-4aae-4263-b7e8-0bb49241eec1" />
+
 
 ## 🤝 Contributing
 
